@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   AlertTriangle,
   ArrowLeft,
@@ -6,6 +6,7 @@ import {
   Download,
   FileUp,
   Lock,
+  LogOut,
   Send,
   ShieldCheck,
 } from 'lucide-react';
@@ -34,6 +35,27 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
     ok: boolean;
     message: string;
   } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSignOut = () => {
+    setIsAuthenticated(false);
+    setPin('');
+    setAuthError(null);
+    setParseError(null);
+    setParseResult(null);
+    setPublishStatus(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    try {
+      sessionStorage.removeItem('admin_pin');
+      sessionStorage.removeItem('admin_auth');
+      localStorage.removeItem('admin_pin');
+      localStorage.removeItem('admin_auth');
+    } catch {
+      // ignore storage errors
+    }
+  };
 
   const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,10 +174,23 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
           Back to Routine
         </button>
 
-        <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 px-3 py-1 text-[11px] font-bold text-[#15803D] dark:text-[#10B981]">
-          <ShieldCheck className="w-3.5 h-3.5" />
-          Admin Publisher
-        </span>
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 px-3 py-1 text-[11px] font-bold text-[#15803D] dark:text-[#10B981]">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            Admin Publisher
+          </span>
+
+          {isAuthenticated && (
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-red-400 hover:border-red-500/40 hover:bg-red-950/20 transition"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sign Out</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {!isAuthenticated ? (
@@ -208,7 +243,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
               1. Upload Department Routine PDF
             </h2>
             <p className="text-xs text-[#64748B] dark:text-[#9CA3AF]">
-              100% client-side parsing using pdfjs-dist bounding coordinates.
+              Upload the official department routine PDF to automatically extract classes, rooms, and teacher schedules.
             </p>
 
             <label className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#CBD5E1] dark:border-[#23282E] bg-slate-50 dark:bg-[#0E1012] p-6 cursor-pointer hover:border-[#16A34A] transition">
@@ -217,6 +252,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
                 {parsing ? 'Parsing PDF coordinates...' : 'Choose Routine PDF File'}
               </span>
               <input
+                ref={fileInputRef}
                 type="file"
                 accept="application/pdf"
                 onChange={handleFileChange}
