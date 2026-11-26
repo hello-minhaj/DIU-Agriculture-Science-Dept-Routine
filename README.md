@@ -1,32 +1,17 @@
-# React + TypeScript + Vite
+# DIU Agricultural Science Routine (AGS Routine)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A mobile-friendly Progressive Web App (PWA) and automated PDF-to-JSON publishing portal built for the **Department of Agricultural Science, Daffodil International University (DIU)**.
 
-Currently, two official plugins are available:
+## Features
+- **Student Schedule Lookup:** Instant multi-section filtering (including retake/overlap courses) with `All Labs / Group 1 / Group 2` practical toggles.
+- **Faculty Schedule View:** Teacher search by name or initial with Day/Week views and teaching workload summaries.
+- **One-Click A4 PDF Export:** Print-ready A4 routine sheets formatted with official university and department branding.
+- **Zero-Cost Admin Publisher (`/admin`):** Client-side PDF coordinate parser (`pdfjs-dist`) that extracts classes, rooms, and faculty from department routine PDFs and publishes updates automatically via GitHub.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS
+- **PDF Parsing:** `pdfjs-dist`
+- **Hosting & Automation:** Vercel Serverless Functions + GitHub Contents API
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `tsrs` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Developer
+**Md Minhajul Islam** — Teaching Assistant, Department of Agricultural Science, DIU
