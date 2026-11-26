@@ -20,7 +20,9 @@ interface AdminPortalProps {
 
 export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
   const [pin, setPin] = useState('');
-  const [unlocked, setUnlocked] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
   const [parsing, setParsing] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
   const [parseResult, setParseResult] = useState<PdfParseResult | null>(null);
@@ -33,10 +35,33 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
     message: string;
   } | null>(null);
 
-  const handleUnlock = (e: React.FormEvent) => {
+  const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!pin.trim()) return;
-    setUnlocked(true);
+    if (!pin.trim() || verifying) return;
+
+    setVerifying(true);
+    setAuthError(null);
+    try {
+      const res = await fetch('/api/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin, verifyOnly: true }),
+      });
+
+      if (res.ok) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        setPin('');
+        setAuthError('Incorrect Admin PIN. Please try again.');
+      }
+    } catch {
+      setIsAuthenticated(false);
+      setPin('');
+      setAuthError('Incorrect Admin PIN. Please try again.');
+    } finally {
+      setVerifying(false);
+    }
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,7 +158,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
         </span>
       </div>
 
-      {!unlocked ? (
+      {!isAuthenticated ? (
         <form
           onSubmit={handleUnlock}
           className="rounded-2xl bg-white dark:bg-[#16191D] border border-[#E2E8F0] dark:border-[#23282E] p-5 space-y-4"
@@ -152,6 +177,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
             </div>
           </div>
 
+          {authError && (
+            <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-3 text-xs font-medium text-red-600 dark:text-red-400">
+              {authError}
+            </div>
+          )}
+
           <input
             type="password"
             value={pin}
@@ -163,9 +194,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ onBackHome }) => {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-[#15803D] dark:bg-[#16A34A] text-white py-2.5 text-xs font-bold hover:opacity-95 transition"
+            disabled={verifying}
+            className="w-full rounded-xl bg-[#15803D] dark:bg-[#16A34A] text-white py-2.5 text-xs font-bold hover:opacity-95 disabled:opacity-50 transition"
           >
-            Unlock Admin Portal
+            {verifying ? 'Verifying...' : 'Unlock Admin Portal'}
           </button>
         </form>
       ) : (

@@ -6,21 +6,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const adminPin = process.env.ADMIN_PIN;
+  if (!adminPin) {
+    return res.status(500).json({
+      error: 'Server configuration missing (ADMIN_PIN).',
+    });
+  }
+
+  const { pin, verifyOnly, routineData, commitMessage } = req.body ?? {};
+
+  if (String(pin || '').trim() !== adminPin.trim()) {
+    return res.status(401).json({ error: 'Incorrect Admin PIN' });
+  }
+
+  if (verifyOnly === true) {
+    return res.status(200).json({ ok: true });
+  }
+
   const githubToken = process.env.GITHUB_TOKEN;
   const githubOwner = process.env.GITHUB_OWNER;
   const githubRepo = process.env.GITHUB_REPO;
 
-  if (!adminPin || !githubToken || !githubOwner || !githubRepo) {
+  if (!githubToken || !githubOwner || !githubRepo) {
     return res.status(500).json({
       error:
-        'Server configuration missing (ADMIN_PIN, GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO).',
+        'Server configuration missing (GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO).',
     });
-  }
-
-  const { pin, routineData, commitMessage } = req.body ?? {};
-
-  if (!pin || pin !== adminPin) {
-    return res.status(401).json({ error: 'Invalid Admin PIN.' });
   }
 
   if (!routineData || typeof routineData !== 'object') {
