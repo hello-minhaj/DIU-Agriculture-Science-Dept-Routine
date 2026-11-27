@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'pwa-icon.svg', 'data/routine.json'],
       manifest: {
-        name: 'Class Routine | DIU Agricultural Science',
+        name: 'Class Routine | Dept of Agricultural Science',
         short_name: 'Agri Routine',
         description:
           'View and download student section schedules, lab groups, and faculty class routines for the Department of Agricultural Science, Daffodil International University (DIU).',
