@@ -3,6 +3,7 @@ import { Sprout } from 'lucide-react';
 import { AboutView } from './components/AboutView';
 import { AdminPortal } from './components/AdminPortal';
 import { ContactView } from './components/ContactView';
+import { HomeView } from './components/HomeView';
 import { NavLayout, type NavTab } from './components/NavLayout';
 import { StudentView } from './components/StudentView';
 import { TeacherView } from './components/TeacherView';
@@ -22,7 +23,7 @@ export function App() {
     return true;
   });
 
-  const [activeTab, setActiveTab] = useState<NavTab>('student');
+  const [activeTab, setActiveTab] = useState<NavTab>('home');
   const [routine, setRoutine] = useState<RoutineData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -103,6 +104,13 @@ export function App() {
                 {error ?? 'Missing routine data.'}
               </p>
             </div>
+          ) : activeTab === 'home' ? (
+            <HomeView
+              semester={routine.semester}
+              version={routine.version}
+              isDark={isDark}
+              onToggleDark={() => setIsDark((d) => !d)}
+            />
           ) : activeTab === 'student' ? (
             <StudentView
               routine={routine}

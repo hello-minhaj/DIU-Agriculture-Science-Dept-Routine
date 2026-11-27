@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {
   GraduationCap,
+  Home,
   Info,
   Mail,
   Sprout,
   UserCheck,
 } from 'lucide-react';
 
-export type NavTab = 'student' | 'teacher' | 'about' | 'contact';
+export type NavTab = 'home' | 'student' | 'teacher' | 'about' | 'contact';
 
 interface NavLayoutProps {
   activeTab: NavTab;
@@ -19,8 +20,9 @@ const NAV_ITEMS: {
   label: string;
   icon: React.FC<{ className?: string }>;
 }[] = [
+  { id: 'home', label: 'Home', icon: Home },
   { id: 'student', label: 'Student', icon: GraduationCap },
-  { id: 'teacher', label: 'Teacher', icon: UserCheck },
+  { id: 'teacher', label: 'Faculty', icon: UserCheck },
   { id: 'about', label: 'About', icon: Info },
   { id: 'contact', label: 'Contact', icon: Mail },
 ];
@@ -97,7 +99,7 @@ export const NavLayout: React.FC<NavLayoutProps> = ({
         aria-label="Mobile navigation"
         className="no-print md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#16191D]/95 backdrop-blur border-t border-[#E2E8F0] dark:border-[#23282E] px-2 py-2"
       >
-        <div className="max-w-md mx-auto grid grid-cols-4 gap-1">
+        <div className="max-w-md mx-auto grid grid-cols-5 gap-1">
           {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
             const isActive = activeTab === id;
             return (

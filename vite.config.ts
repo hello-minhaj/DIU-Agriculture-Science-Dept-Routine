@@ -12,10 +12,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'pwa-icon.svg', 'data/routine.json'],
       manifest: {
-        name: 'DIU Agri Routine — Department of Agricultural Science',
+        name: 'Class Routine | DIU Agricultural Science',
         short_name: 'Agri Routine',
         description:
-          'Mobile-first class routine PWA for Department of Agricultural Science, Daffodil International University',
+          'View and download student section schedules, lab groups, and faculty class routines for the Department of Agricultural Science, Daffodil International University (DIU).',
         theme_color: '#15803D',
         background_color: '#F3F8F4',
         display: 'standalone',
