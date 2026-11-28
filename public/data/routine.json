@@ -1,7 +1,7 @@
 {
   "semester": "Fall 2026",
-  "version": "V-8",
-  "effective_date": "28th November 2026",
+  "version": "V-7",
+  "effective_date": "21th November 2026",
   "department": "Department of Agricultural Science",
   "university": "Daffodil International University",
   "teachers": [
@@ -390,7 +390,7 @@
       "course_name": "Biochem-I",
       "type": "Theory",
       "teacher_id": "MSA",
-      "room": "AB4 (902)"
+      "room": "AB4 (901)"
     },
     {
       "id": "sat-2-263_A-8",
@@ -3285,7 +3285,7 @@
       "course_name": "Soil III",
       "type": "Theory",
       "teacher_id": "FA",
-      "room": "AB4 (905)"
+      "room": "AB4 (901)"
     },
     {
       "id": "thu-1-262_D-212",
