@@ -77,11 +77,11 @@ export const PrintSchedule: React.FC<PrintScheduleProps> = ({
             <th className="border border-[#1F2937] py-2.5 px-3 text-center">
               Day
             </th>
-            <th className="border border-[#1F2937] py-2.5 px-3 text-center">
-              Course
+            <th className="border border-[#1F2937] py-2.5 px-3 text-center whitespace-nowrap">
+              Time Slot
             </th>
             <th className="border border-[#1F2937] py-2.5 px-3 text-center">
-              Time Slot
+              Course
             </th>
             <th className="border border-[#1F2937] py-2.5 px-3 text-center">
               Room
@@ -123,13 +123,13 @@ export const PrintSchedule: React.FC<PrintScheduleProps> = ({
                         {day}
                       </td>
                     )}
+                    <td className="border border-[#1F2937] py-2.5 px-3 text-center align-middle whitespace-nowrap">
+                      {cls.start_time} - {cls.end_time}
+                    </td>
                     <td className="border border-[#1F2937] py-2.5 px-3 text-center align-middle">
                       {isTeacherMode
                         ? cls.course_name
                         : `${cls.course_name} (${courseTag})`}
-                    </td>
-                    <td className="border border-[#1F2937] py-2.5 px-3 text-center align-middle whitespace-nowrap">
-                      {cls.start_time} - {cls.end_time}
                     </td>
                     <td className="border border-[#1F2937] py-2.5 px-3 text-center align-middle">
                       {cls.room}
